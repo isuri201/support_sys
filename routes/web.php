@@ -26,4 +26,5 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/search',[TicketController::class,'search'])->name('search');
 Route::resource('/tickets', 'App\Http\Controllers\TicketController');
+Route::resource('/comments', 'App\Http\Controllers\CommentController');
 Route::get('/customerhome', [CustomerController::class, 'index'])->name('customer.home');

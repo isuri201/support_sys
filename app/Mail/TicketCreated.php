@@ -9,11 +9,12 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Ticket;
+use Illuminate\Mail\Mailables\Address;
 
 class TicketCreated extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $ticket;
     /**
      * Create a new message instance.
      *
@@ -32,6 +33,7 @@ class TicketCreated extends Mailable
     public function envelope()
     {
         return new Envelope(
+            from: new Address('example@example.com', 'Test Sender'),
             subject: 'Ticket Created',
         );
     }
@@ -44,7 +46,7 @@ class TicketCreated extends Mailable
     public function content()
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.ticket_created',
         );
     }
 

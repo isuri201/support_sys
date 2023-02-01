@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TicketCreated;
+
 
 class TicketController extends Controller
 {
@@ -14,9 +18,43 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-      //
+       
+      $tickets = Ticket::paginate(5);
+
+      //if search 
+        $search = $request->input('search');
+        
+      if($search){
+        $search = $request->search;
+        $tickets = Ticket::where('customer_name','LIKE',"%$search%")
+                           ->orWhere('phone_number','LIKE',"%$search")->paginate(5);
+        
+        return view('tickets.all',compact('tickets'));
+      }
+      //search over
+
+      //sorting
+      $sort = $request->input('sort');
+        $sort_dir = $request->input('sort_dir');
+      if($sort&&$sort_dir){
+      $sortColumn = $request->query('sort', 'created_at');
+      $sortDir = $request->query('sort_dir') == 'asc' ? 'asc' : 'desc';
+      $sortableColumns = [
+          'customer_name',
+          'created_at',
+          'updated_at',
+          'status',
+      ];
+      if (in_array($sortColumn, $sortableColumns)) {
+        $tickets = Ticket::orderBy($sortColumn, $sortDir)->paginate(5);
+
+    }
+    return view('tickets.all',compact('tickets'));
+}
+
+      return view('tickets.all',compact('tickets'));
     }
 
     /**
@@ -60,7 +98,8 @@ class TicketController extends Controller
             $ticket->ref = $ref;
             $ticket->status = 0;
             if($ticket->save()){
-                return back()->with('success','Your Problem ticket sent successfully');
+                 Mail::to($ticket->email)->send(new \App\Mail\TicketCreated($ticket));
+                return back();
             }
             
         }
