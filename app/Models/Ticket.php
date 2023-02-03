@@ -9,7 +9,7 @@ use App\Models\Comment;
 class Ticket extends Model
 {
     use HasFactory;
-    protected $fillables = [
+    protected $fillable = [
         'customer_name',
         'phone_number',
         'email',

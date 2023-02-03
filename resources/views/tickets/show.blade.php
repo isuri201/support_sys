@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -29,6 +30,14 @@
          <th>Created At:</th>
          <td>{{$ticket->created_at}}</td>
       </tr>
+      <tr>
+         <th><a href="{{route('tickets.edit',$ticket->id)}}" class="btn btn-warning">update</a></th>
+         <th><td> <form action="{{route('tickets.destroy',$ticket->id)}}" method="post">
+                @csrf
+                @method('delete')
+            <button type="submit" class="btn btn-danger">Delete</button>
+            </form></td></th>
+         </tr>
    </tbody>
   </table>
 </div>

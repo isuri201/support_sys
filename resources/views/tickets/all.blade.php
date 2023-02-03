@@ -60,6 +60,18 @@
         @endif
         </td>
         <td>{{$ticket->status}}</td>
+        <td><form action="{{route('tickets.update',$ticket->id)}}" method="post">
+            @csrf
+            @method('put')
+            <input type="hidden" name="status" value="2">
+            <input type="submit" value="resolved" class="btn btn-success">
+        </form></td>
+        <td><form action="{{route('tickets.update',$ticket->id)}}" method="post">
+            @csrf
+            @method('put')
+            <input type="hidden" name="status" value="3">
+            <input type="submit" value="cancel" class="btn btn-danger">
+        </form></td>
     </tr>
      
     @endforeach

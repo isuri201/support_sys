@@ -13,6 +13,12 @@ use App\Mail\TicketCreated;
 
 class TicketController extends Controller
 {
+
+    public function __construct()
+{
+    
+        $this->middleware('auth')->only(['index']);
+}
     /**
      * Display a listing of the resource.
      *
@@ -124,7 +130,7 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        return view('tickets.edit',compact('ticket'));
     }
 
     /**
@@ -136,7 +142,9 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        //
+       
+        $ticket->update($request->all());
+        return back();
     }
 
     /**
@@ -147,7 +155,8 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        $ticket->delete();
+        return redirect(route('customer.home'));
     }
 
     public function search(Request $request){
