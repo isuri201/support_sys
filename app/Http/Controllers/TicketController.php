@@ -104,7 +104,8 @@ class TicketController extends Controller
             $ticket->ref = $ref;
             $ticket->status = 0;
             if($ticket->save()){
-                 Mail::to($ticket->email)->send(new \App\Mail\TicketCreated($ticket));
+                 // dispatch the TicketCreated event
+                \App\Events\ticketEmail::dispatch($ticket);
                 return back();
             }
             
