@@ -41,7 +41,7 @@ class CommentController extends Controller
         $comment->ticket_id = $request->input('ticket_id');
         $comment->user_id = auth()->check()? auth()->id():null;
         $ticket = Ticket::where('id',$request->input('ticket_id'))->update([
-            'status' => 0
+            'status' => 1
         ]);
         if($comment->save()){
             return back();

@@ -1,5 +1,10 @@
-
+@auth
 @extends('layouts.app')
+@endauth
+
+@guest
+@extends('layouts.customer_app')
+@endguest
 
 @section('content')
 <div class="container">
@@ -31,12 +36,14 @@
          <td>{{$ticket->created_at}}</td>
       </tr>
       <tr>
+         @guest
          <th><a href="{{route('tickets.edit',$ticket->id)}}" class="btn btn-warning">update</a></th>
          <th><td> <form action="{{route('tickets.destroy',$ticket->id)}}" method="post">
                 @csrf
                 @method('delete')
             <button type="submit" class="btn btn-danger">Delete</button>
             </form></td></th>
+         @endguest
          </tr>
    </tbody>
   </table>
@@ -48,7 +55,7 @@
    <textarea class="form-control mt-5" placeholder="Type your reply" name="content"></textarea>
    </div>
 <div class="col-md-4">
-   <input type="hidden" name="ticket_id" value="{{$ticket->id}}">         
+   <input type="hidden" name="ticket_id" value="{{$ticket->id}}">       
 <input type="submit" class="btn btn-success mt-5" value="Reply">
 </div>
 </form>
@@ -76,6 +83,30 @@
     @endforeach
 </div>
 @endif
+@auth
+<div class="row mt-5">
+@if($ticket->status!=3)
+   <div class="col-2">
+   <form action="{{route('tickets.update',$ticket->id)}}" method="post">
+            @csrf
+            @method('put')
+            <input type="hidden" name="status" value="2">
+            <input type="submit" value="resolved" class="btn btn-success">
+        </form>
+   </div>
+
+     <div class="col-2">
+     <form action="{{route('status.update',$ticket->id)}}" method="post">
+            @csrf
+            @method('put')
+            <input type="hidden" name="status" value="3">
+            <input type="submit" value="cancel" class="btn btn-danger">
+        </form>
+     </div>  
+     @endauth 
+        @endif
+</div>
+ 
 </div>
 
 @endsection

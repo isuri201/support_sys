@@ -34,3 +34,4 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::resource('/comments', 'App\Http\Controllers\CommentController');
 
 Route::get('/customerhome', [CustomerController::class, 'index'])->name('customer.home');
+Route::post('/statusUpdate',[TicketController::class,'statusUpdate'])->name('status.update');

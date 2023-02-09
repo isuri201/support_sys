@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Ticket;
+use App\Events\TicketEmail;
+use App\Mail\TicketCreated;
 
 class TicketsController extends Controller
 {
@@ -36,7 +39,7 @@ class TicketsController extends Controller
 
     if ($ticket) {
         // dispatch the TicketCreated event
-        \App\Events\TicketEmail::dispatch($ticket);
+        // \App\Events\TicketEmail::dispatch($ticket);
 
         return response()->json([
             'data' => $ticket,

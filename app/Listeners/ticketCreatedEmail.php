@@ -5,7 +5,8 @@ namespace App\Listeners;
 use App\Events\ticketEmail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Mail\TicketCreated;
+use App\Mail\TicketCreated as NewTicketMail;
+use App\Models\Ticket;
 class ticketCreatedEmail
 {
     /**
@@ -13,9 +14,9 @@ class ticketCreatedEmail
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Ticket $ticket)
     {
-        //
+        $this->ticket = $ticket;
     }
 
     /**
@@ -24,11 +25,11 @@ class ticketCreatedEmail
      * @param  \App\Events\ticketEmail  $event
      * @return void
      */
-    public function handle(ticketEmail $event)
+    public function handle(TicketCreated $event)
     {
         if (isset($event->ticket->email)) {
             // send the new ticket notification to user
-            Mail::to($event->ticket->email)->send(new TicketCreated($event->ticket));
+            Mail::to($event->ticket->email)->send(new NewTicketMail($event->ticket));
         }
     }
 }

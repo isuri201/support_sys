@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TicketCreated;
+use App\Events\ticketEmail;
 
 
 class TicketController extends Controller
@@ -18,6 +19,7 @@ class TicketController extends Controller
 {
     
         $this->middleware('auth')->only(['index']);
+        $this->middleware('guest')->only(['create','edit']);
 }
     /**
      * Display a listing of the resource.
@@ -105,7 +107,7 @@ class TicketController extends Controller
             $ticket->status = 0;
             if($ticket->save()){
                  // dispatch the TicketCreated event
-                \App\Events\ticketEmail::dispatch($ticket);
+                ticketEmail::dispatch($ticket);
                 return back();
             }
             
@@ -169,4 +171,11 @@ class TicketController extends Controller
           
        return redirect()->back()->with('error', 'Sorry! We could not find the ticket you are looking for. Please check the reference number.');
       }
+
+      public function statusUpdate(Request $request, Ticket $ticket){
+        $ticket->update($request->all());
+        return redirect(route('tickets.index'));
+      }
+      
 }
+

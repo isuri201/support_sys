@@ -23,4 +23,10 @@ class Ticket extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function getLastCommentedAgentAttribute()
+{
+    return $this->comments->sortByDesc('created_at')
+        ->whereNotNull('user')->pluck('user')->first();
+}
 }

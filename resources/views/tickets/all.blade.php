@@ -49,30 +49,32 @@
         <td>{{$ticket->email}}</td>
         <td>{{$ticket->phone_number}}</td>
         <td>{{$ticket->created_at}}</td>
-        <td>
-        @if($ticket->comments->isNotEmpty())
+        <!-- <td> -->
+        <!-- @if($ticket->comments->isNotEmpty())
         @foreach($ticket->comments as $comment)
         @if(isset($comment->user))
         {{$comment->user->name}}
         @break
         @endif
         @endforeach
-        @endif
+        @endif -->
+        <td>{{ $ticket->lastCommentedAgent ? $ticket->lastCommentedAgent->name : 'None' }}</td>
+
+        <!-- </td> -->
+        <td>
+            @if($ticket->status == 0)
+            <div class="badge badge-info" >New</div>
+            @elseif($ticket->status == 1)
+            <div class="badge badge-warning" >Attended</div>
+            @elseif($ticket->status == 2)
+            <div class="badge badge-success" >Resloved</div>
+            @else
+            <div class="badge badge-danger" >Cancelled</div>
+            @endif
         </td>
-        <td>{{$ticket->status}}</td>
-        @if($ticket->status!=3)
-        <td><form action="{{route('tickets.update',$ticket->id)}}" method="post">
-            @csrf
-            @method('put')
-            <input type="hidden" name="status" value="2">
-            <input type="submit" value="resolved" class="btn btn-success">
-        </form></td>
-        <td><form action="{{route('tickets.update',$ticket->id)}}" method="post">
-            @csrf
-            @method('put')
-            <input type="hidden" name="status" value="3">
-            <input type="submit" value="cancel" class="btn btn-danger">
-        </form></td>
+        
+        @if($ticket->status !=2 && $ticket->status != 3)
+        <td><a href="{{route('tickets.show',$ticket->id)}}" class="btn btn-info">View</a></td>
         @endif
     </tr>
      
