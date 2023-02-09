@@ -52,11 +52,11 @@ class TicketsController extends Controller
         'message' => 'Oops! Could not create your ticket. Please try later.'
     ], 500);
 
-
-
-
     }
 
-   
+   public function index(){
+    $ticket = Ticket::all();
+    return $ticket;
+   }
 
 }

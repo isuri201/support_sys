@@ -22,5 +22,6 @@ Route::group([
     'namespace' => 'App\Http\Controllers\API\V1',
     'prefix' => 'v1',
 ], function() {
-    Route::post('/apitickets', 'TicketsController@store')->name('api.store');
+    Route::post('/apiticketstore', 'TicketsController@store')->name('api.store');
+    Route::get('/apitickets', 'TicketsController@index')->name('api.index');
 });
