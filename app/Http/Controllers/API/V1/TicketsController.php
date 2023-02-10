@@ -59,4 +59,21 @@ class TicketsController extends Controller
     return $ticket;
    }
 
+   public function show($id){
+    $ticket = Ticket::findOrFail($id);
+    return $ticket;
+   }
+
+   public function update(Request $request, $id){
+    $ticket = Ticket::findOrFail($id)->update($request->all());
+    return $ticket;
+   }
+
+   public function destroy($id){
+    $ticket = Ticket::findOrFail($id)->delete();
+    
+    
+   }
+   
+
 }

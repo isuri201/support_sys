@@ -24,4 +24,6 @@ Route::group([
 ], function() {
     Route::post('/apiticketstore', 'TicketsController@store')->name('api.store');
     Route::get('/apitickets', 'TicketsController@index')->name('api.index');
+    Route::post('/apiticket/update/{id}' , 'TicketsController@update')->name('api.update');
+    Route::get('/apiticket/destroy/{id}', 'TicketsController@destroy')->name('api.delete');
 });
