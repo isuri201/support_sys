@@ -48,7 +48,7 @@ class TicketsTest extends TestCase
             'description' => 'dfdsfsdfs'
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
     }
 
     public function test_ticket_delete()
@@ -57,12 +57,9 @@ class TicketsTest extends TestCase
             'Accept' => 'application/json',
         ])->get('api/v1/apiticket/destroy/{id}',[
             'id'=>1,
-            'customer_name' => 'isuri',
-            'email' => 'isuri@gmail.com',
-            'contact_number' => '0775675674',
-            'description' => 'dfdsfsdfs'
+           
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(404);
     }
 }

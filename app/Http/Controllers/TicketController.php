@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TicketCreated;
-use App\Events\ticketEmail;
+
 
 
 class TicketController extends Controller
@@ -107,8 +107,8 @@ class TicketController extends Controller
             $ticket->status = 0;
             if($ticket->save()){
                  // dispatch the TicketCreated event
-                ticketEmail::dispatch($ticket);
-                return back();
+                 \App\Events\ticketEmail::dispatch($ticket);
+                 return back()->with('success', 'Ticket created successfully');
             }
             
         }

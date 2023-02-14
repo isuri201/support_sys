@@ -14,7 +14,7 @@ use App\Models\Ticket;
 class ticketEmail
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public $ticket;
     /**
      * Create a new event instance.
      *

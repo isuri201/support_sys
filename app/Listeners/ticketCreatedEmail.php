@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Mail\TicketCreated as NewTicketMail;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Mail;
+
 class ticketCreatedEmail
 {
     /**
@@ -25,11 +27,11 @@ class ticketCreatedEmail
      * @param  \App\Events\ticketEmail  $event
      * @return void
      */
-    public function handle(TicketCreated $event)
+    public function handle(ticketEmail $event)
     {
         if (isset($event->ticket->email)) {
             // send the new ticket notification to user
-            Mail::to($event->ticket->email)->send(new NewTicketMail($event->ticket));
+            Mail::to($event->ticket->email)->send(new NewticketMail($event->ticket));
         }
     }
 }
